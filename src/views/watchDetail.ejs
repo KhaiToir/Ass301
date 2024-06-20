@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title%></title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+    <style>
+      .comment-container {
+        margin-top: 2rem;
+      }
+      .comment-item {
+        margin-bottom: 1rem;
+      }
+      .rating {
+        color: #ffd700;
+      }
+      #successMessage {
+        position: fixed;
+        text-align: center;
+        top: 80px;
+        left: 10px;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <body>
+    <%- include('partials/header') %> <% if(success_msg != ''){ %>
+    <div
+      id="successMessage"
+      class="notification is-success"
+      style="width: 200px; padding: 10px"
+    >
+      <%= success_msg %>
+    </div>
+    <% } %> <% if(error_msg !='' ){ %>
+    <div
+      id="successMessage"
+      class="notification is-warning"
+      style="width: 200px; padding: 10px"
+    >
+      <%= error_msg %>
+    </div>
+    <% } %>
+    <div class="container" style="padding: 1rem; min-height: 100vh">
+      <a href="/" style="color: white">
+        <button class="button is-primary" style="margin-bottom: 1rem">
+          Back
+        </button>
+      </a>
+      <div class="columns">
+        <div class="column is-one-third">
+          <figure class="image is-4by3">
+            <img src="<%= watch.image %>" alt="<%= watch.name %>" />
+          </figure>
+        </div>
+        <div class="column">
+          <h1 class="title is-3"><%= watch.name %></h1>
+          <div class="subtitle is-3" style="display: flex; margin-top: 10px">
+            <strong style="margin-right: 8px">Price: </strong>
+            <strong>$ <%= watch.price %></strong>
+          </div>
+          <div style="margin-top: 20px">
+            <p class="subtitle is-4">
+              <strong>Brand:</strong> <%= watch.brand?.brandName %>
+            </p>
+            <p class="subtitle is-4">
+              <strong>Automatic:</strong> <%= watch.isAutomatic? "Yes" : "No" %>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div style="margin-top: 50px">
+        <strong class="title is-5">Description:</strong>
+        <p><%= watch.description %></p>
+      </div>
+
+      <div class="comment-container">
+        <h2 class="title is-5">Comments</h2>
+        <% watch.comments.forEach(function(comment) { %>
+        <div class="comment-item">
+          <p>
+            <strong>Rating:</strong>
+            <% for (let i = 0; i < comment.rating; i++) { %>
+            <i class="fas fa-star rating"></i>
+            <% } %>
+          </p>
+          <p><strong>Comment:</strong> <%= comment.comment %></p>
+          <p><strong>Author:</strong> <%= comment.author.name %></p>
+        </div>
+        <% }); %>
+        <!-- Form -->
+        <% if(loggedIn && !user?.isAdmin) { %>
+        <h3 class="title is-5" style="margin-top: 20px">Add a Comment</h3>
+        <form action="/watches/<%= watch._id %>/comment" method="POST">
+          <div class="field">
+            <label class="label">Rating (1-5)</label>
+            <div class="control">
+              <input
+                class="input"
+                type="number"
+                name="rating"
+                min="1"
+                max="5"
+                required
+              />
+            </div>
+          </div>
+          <div class="field">
+            <label class="label">Comment</label>
+            <div class="control">
+              <textarea
+                class="textarea"
+                name="comment"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button class="button is-primary" type="submit">Submit</button>
+            </div>
+          </div>
+        </form>
+        <% } %>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+  <script>
+    setTimeout(function () {
+      var successMessage = document.getElementById("successMessage");
+      if (successMessage) {
+        successMessage.style.display = "none";
+      }
+    }, 3000);
+  </script>
+</html>

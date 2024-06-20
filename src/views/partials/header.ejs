@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css" />
+  </head>
+
+  <style>
+    .button.is-primary {
+      background-color: #cc99cc;
+      color: white;
+    }
+    .button.is-primary:hover {
+      background-color: #ff99ff;
+      color: white;
+    }
+    .navbar {
+      background-color: #cc99cc;
+    }
+
+    .navbar-start {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      padding: 10px; /* Thay đổi giá trị tùy theo nhu cầu */
+      background-color: #cc99cc; /* Thay đổi màu nền tùy theo nhu cầu */
+    }
+
+    .navbar-start a {
+      text-decoration: none;
+      color: white;
+      margin-right: 20px; /* Thay đổi khoảng cách giữa các liên kết tùy theo nhu cầu */
+    }
+
+    .navbar-start a:hover {
+      color: white;
+      text-decoration: underline;
+    }
+  </style>
+
+  <body>
+    <nav
+      class="navbar"
+      role="navigation"
+      aria-label="main navigation"
+      style="border-bottom: 1.5px solid #cccccc"
+    >
+      <div class="navbar-brand">
+        <a class="navbar-item" href="/">
+          <img
+            src="https://icons.iconarchive.com/icons/iconsmind/outline/128/Sand-watch-2-icon.png"
+            width="40"
+            height="80"
+          />
+        </a>
+      </div>
+
+      <div id="navbarBasicExample" class="navbar-menu">
+        <div class="navbar-start">
+          <a href="/" style="font-weight: bold"> Home </a>
+          <% if(loggedIn && user?.isAdmin) { %>
+          <a href="/watches"> Watch </a>
+          <a href="/brands"> Brand </a>
+          <a href="/accounts"> Account </a>
+          <% } %>
+        </div>
+        <div class="navbar-end">
+          <div class="navbar-item">
+            <div class="buttons" style="display: flex;">
+              <% if (loggedIn) { %>
+              <strong style="color: white"> <%= user.name %> </strong>
+              <a
+                class="button is-primary"
+                href="/profile"
+                style="margin-left: 1rem"
+              >
+                <strong><i class="fa fa-user"></i> Profile</strong>
+              </a>
+              <a
+                class="button is-primary"
+                href="/logout"
+                style="margin-left: 1rem"
+              >
+                <strong
+                  ><i class="fa fa-sign-out-alt" aria-hidden="true"></i>
+                  Logout</strong
+                >
+              </a>
+              <% } else { %>
+              <a class="button is-primary" href="/login">
+                <strong>Login</strong>
+              </a>
+              <a class="button is-primary" href="/register"> Register </a>
+              <% } %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </body>
+</html>

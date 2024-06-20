@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+  </head>
+
+  <body>
+    <%- include('partials/header') %>
+
+    <a
+      href="/brands"
+      class="button is-primary"
+      style="margin-bottom: 10px; margin-top: 20px; margin-left: 50px"
+      >Back</a
+    >
+    <div class="container" style="height: 100vh">
+      <form method="POST">
+        <div class="field">
+          <label class="label">Brand Name</label>
+          <div class="control">
+            <input
+              class="input"
+              name="brandName"
+              type="text"
+              placeholder="Input name"
+              required
+              value="<%= brand.brandName %>"
+              onblur="trimInput()"
+            />
+          </div>
+        </div>
+        <div class="field is-grouped">
+          <div class="control">
+            <button class="button is-link" type="submit">Save</button>
+          </div>
+        </div>
+      </form>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+</html>

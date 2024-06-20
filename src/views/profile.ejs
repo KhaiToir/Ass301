@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title%></title>
+    <style>
+      #successMessage {
+        position: fixed;
+        text-align: center;
+        top: 80px;
+        left: 10px;
+        z-index: 1000;
+      }
+    </style>
+  </head>
+  <%- include('partials/header') %>
+
+  <body>
+    <section class="main-content columns is-fullheight">
+      <div class="container column is-10" style="height: max-content">
+        <div style="margin-top: 1rem">
+          <a href="/" class="button is-primary">Back</a>
+        </div>
+        <div class="section">
+          <div class="card">
+            <div class="card-header">
+              <p class="card-header-title">User Information</p>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <div class="columns">
+                  <div class="column is-3">
+                    <img
+                      class="custom-image"
+                      src="https://phunugioi.com/wp-content/uploads/2020/08/hinh-nen-con-meo-de-thuong.jpg"
+                      alt="Placeholder image"
+                    />
+                  </div>
+
+                  <div class="column is-9">
+                    <div class="columns is-mobile">
+                      <div class="column is-6">
+                        <p class="title is-6">
+                          <span class="icon"><i class="fa fa-user"></i></span
+                          >Name: <%= user.name %>
+                        </p>
+
+                        <p class="title is-6">
+                          <span class="icon"
+                            ><i class="fa fa-envelope"></i></span
+                          >Email: <%= user.username %>
+                        </p>
+                        <p class="title is-6">
+                          <span class="icon"
+                            ><i class="fa fa-calendar"></i></span
+                          >Year of Birth: <%= user.YOB %>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+
+          <div class="card">
+            <% if(success_msg !='' ){ %>
+            <div id="successMessage" class="notification is-success">
+              <%= success_msg %>
+            </div>
+            <% } %> <% if(error_msg !='' ){ %>
+            <div class="notification is-warning"><%= error_msg %></div>
+            <% } %> <% if(error !='' ){ %>
+            <div id="successMessage" class="notification is-warning">
+              <%= error %>
+            </div>
+            <% } %>
+            <div class="card-header">
+              <p class="card-header-title">Edit Profile</p>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <form action="/profile" method="POST" oninput="checkChanges()">
+                  <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control has-icons-left">
+                      <input
+                        class="input"
+                        type="text"
+                        placeholder="input name"
+                        id="name"
+                        name="name"
+                        value="<%= user.name%>"
+                        required
+                      />
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-user-circle"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Username</label>
+                    <div class="control has-icons-left has-icons-right">
+                      <input
+                        class="input"
+                        type="email"
+                        placeholder="Input username"
+                        id="username"
+                        name="username"
+                        value="<%= user.username%>"
+                        required
+                      />
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-user"></i>
+                      </span>
+                      <span class="icon is-small is-right">
+                        <i class="fas fa-check"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Year of Birth</label>
+                    <div class="control has-icons-left">
+                      <input
+                        class="input"
+                        type="number"
+                        placeholder="Input year of birth"
+                        id="YOB"
+                        name="YOB"
+                        value="<%= user.YOB%>"
+                        required
+                        min="1900"
+                        max="2020"
+                      />
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-calendar" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <div class="control">
+                      <button
+                        id="submitButton"
+                        class="button is-link"
+                        type="submit"
+                        disabled
+                      >
+                        Submit
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+          <br />
+
+          <% if(successPassword_msg !='' ){ %>
+          <div id="successMessage" class="notification is-success">
+            <%= successPassword_msg %>
+          </div>
+          <% } %> <% if(errorPassword_msg !='' ){ %>
+          <div id="successMessage" class="notification is-warning">
+            <%= errorPassword_msg %>
+          </div>
+          <% } %> <% if(errorPassword.length> 0){ %> <% errorPassword.forEach(
+          (error)=> { %>
+          <div id="successMessage" class="notification is-warning">
+            <%= error.msg %>
+          </div>
+          <% }) %> <% } %>
+          <div class="card">
+            <div class="card-header">
+              <p class="card-header-title">Change Password</p>
+            </div>
+            <div class="card-content">
+              <div class="content">
+                <form action="/profile/change-password" method="POST">
+                  <div class="field">
+                    <label class="label">Old Password</label>
+                    <div class="control has-icons-left">
+                      <input
+                        class="input"
+                        type="password"
+                        placeholder="Input old password"
+                        name="oldPassword"
+                        required
+                      />
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-unlock-alt"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">New Password</label>
+                    <div class="control has-icons-left">
+                      <input
+                        id="password"
+                        class="input"
+                        type="password"
+                        placeholder="Input new password"
+                        name="newPassword"
+                        required
+                      />
+                      <span class="icon is-small is-left">
+                        <i class="fa fa-lock" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <label class="label">Confirm New Password</label>
+                    <div class="control has-icons-left">
+                      <input
+                        id="confirmPassword"
+                        class="input"
+                        type="password"
+                        placeholder="Confirm new password"
+                        name="confirmNewPassword"
+                        required
+                      />
+                      <span class="icon is-small is-left">
+                        <i class="fas fa-key"></i>
+                      </span>
+                    </div>
+                  </div>
+
+                  <div class="field">
+                    <div class="control">
+                      <button class="button is-link" type="submit">
+                        Change
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </body>
+  <%- include('partials/footer') %>
+  <script>
+    function checkChanges() {
+      var nameInput = document.getElementById("name");
+      var usernameInput = document.getElementById("username");
+      var YOBInput = document.getElementById("YOB");
+      var submitButton = document.getElementById("submitButton");
+
+      if (
+        nameInput.value !== "<%= user.name %>" ||
+        usernameInput.value !== "<%= user.username %>" ||
+        YOBInput.value !== "<%= user.YOB %>"
+      ) {
+        submitButton.disabled = false;
+      } else {
+        submitButton.disabled = true;
+      }
+    }
+    setTimeout(function () {
+      var successMessage = document.getElementById("successMessage");
+      if (successMessage) {
+        successMessage.style.display = "none";
+      }
+    }, 3000);
+  </script>
+</html>

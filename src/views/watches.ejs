@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <style>
+      #successMessage {
+        position: fixed;
+        text-align: center;
+        top: 80px;
+        left: 10px;
+        z-index: 1000;
+      }
+
+      .search-form {
+        padding-top: 20px;
+        padding-left: 135px;
+        width: 40%;
+        padding-right: 72px;
+      }
+
+      .search-form .field {
+        margin-bottom: 0;
+      }
+
+      .search-form .control {
+        display: flex;
+        align-items: stretch;
+      }
+
+      .search-form .input {
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+
+      .search-form .button {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+
+      .search-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    </style>
+  </head>
+
+  <body>
+    <%- include('partials/header') %>
+    <div class="search-container">
+      <form method="GET" class="search-form">
+        <div class="field has-addons">
+          <div class="control is-expanded">
+            <input
+              class="input"
+              type="text"
+              name="search"
+              placeholder="Search watch name"
+            />
+          </div>
+          <div class="control">
+            <button class="button is-primary" type="submit">Search</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <% if(success_msg !='' ){ %>
+    <div
+      id="successMessage"
+      class="notification is-success"
+      style="width: 200px; padding: 10px"
+    >
+      <%= success_msg %>
+    </div>
+    <% } %> <% if(error_msg !='' ){ %>
+    <div
+      id="successMessage"
+      class="notification is-warning"
+      style="width: 200px; padding: 10px"
+    >
+      <%= error_msg %>
+    </div>
+    <% } %>
+
+    <div
+      class="container"
+      style="padding-top: 30px; padding-left: 120px; padding-right: 120px; height: 950px;"
+    >
+      <div class="columns is-multiline">
+        <% watches.forEach(function(watch, index){ %>
+        <div class="column is-one-third">
+          <div class="card" style="height: 420px;">
+            <div class="card-image">
+              <figure class="image is-4by3">
+                <img src="<%= watch.image %>" alt="<%= watch.name %>" class="object-cover" />
+              </figure>
+            </div>
+            <div
+              class="card-content"
+              style="
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+              "
+            >
+              <div>
+                <p class="title is-4"><%= watch.name %></p>
+              </div>
+              <div style="padding: 10px">
+                <p class="title is-6"><%= watch.price %> $</p>
+              </div>
+              <div class="buttons">
+                <a class="button is-primary" href="/watches/<%=watch._id%>"
+                  >View</a
+                >
+              </div>
+            </div>
+          </div>
+        </div>
+        <% }); %>
+      </div>
+    </div>
+    <%- include('partials/footer') %>
+  </body>
+
+  <script>
+    setTimeout(function () {
+      var successMessage = document.getElementById("successMessage");
+      if (successMessage) {
+        successMessage.style.display = "none";
+      }
+    }, 3000);
+  </script>
+</html>

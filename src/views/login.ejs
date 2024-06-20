@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>Login</title>
+    <style>
+        .error-message {
+            color: red;
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+    <script>
+        function validateForm() {
+            var form = document.forms["loginForm"];
+            var username = form["username"].value;
+            var password = form["password"].value;
+            var isValid = true;
+
+            // Clear previous error messages
+            var errorMessages = document.getElementsByClassName("error-message");
+            while (errorMessages[0]) {
+                errorMessages[0].parentNode.removeChild(errorMessages[0]);
+            }
+
+            // Validate username
+            if (username === "" || !/\S+@\S+\.\S+/.test(username)) {
+                displayError(form["username"], "Please enter a valid email.");
+                isValid = false;
+            }
+
+            // Validate password
+            if (password === "") {
+                displayError(form["password"], "Please enter your password.");
+                isValid = false;
+            } else if (password.length < 6) {
+                displayError(form["password"], "Password must be at least 6 characters long.");
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+        function displayError(inputElement, message) {
+            var errorElement = document.createElement("div");
+            errorElement.className = "error-message";
+            errorElement.innerText = message;
+            inputElement.parentNode.appendChild(errorElement);
+        }
+    </script>
+</head>
+<%- include('partials/header') %>
+
+<body>
+    <section class="hero is-primary is-fullheight" style="background-color: rgba(255, 255, 255, 0.5);">
+        <div class="hero-body">
+            <div class="container">
+                <div class="columns is-centered">
+                    <div class="column is-5-tablet is-4-desktop is-3-widescreen box">
+                        <% if(success_msg != ''){ %>
+                            <div id="successMessage" class="notification is-success">
+                                <%= success_msg %>
+                            </div>
+                        <% } %>
+                        <% if(error_msg != ''){ %>
+                            <div id="successMessage" class="notification is-warning">
+                                <%= error_msg %>
+                            </div>
+                        <% } %>
+                        <% if(error != ''){ %>
+                            <div id="successMessage" class="notification is-warning">
+                                <%= error %>
+                            </div>
+                        <% } %>
+                        <div style="display: flex;justify-content: center;align-items: center;flex-direction: column;text-align:center;">
+                            <div class="field">
+                                <img src="https://icons.iconarchive.com/icons/iconsmind/outline/128/Sand-watch-2-icon.png" alt="logo" style="width: 7rem; height: 7rem;" />
+                            </div>
+                            <div class="field">
+                                <h1 style="font-weight: bold; font-size: x-large; margin-bottom: 2rem;">Welcome to WATCH</h1>
+                            </div>
+                        </div>
+                        <form name="loginForm" method="POST" onsubmit="return validateForm()">
+                            <div class="field">
+                                <label for="" class="label">Username</label>
+                                <div class="control has-icons-left">
+                                    <input type="text" name="username" placeholder="Input your email" class="input" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-envelope"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label for="" class="label">Password</label>
+                                <div class="control has-icons-left">
+                                    <input type="password" name="password" placeholder="Input your password" class="input" required>
+                                    <span class="icon is-small is-left">
+                                        <i class="fa fa-lock"></i>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="control" style="text-align: center;">
+                                <button class="button is-link" type="submit" style="width: 10rem;height: 3rem;border-radius: 10rem; margin-top: 20px;">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
+                        <div class="field">
+                            <div style="text-align: center; margin-top: 2rem;">
+                                <p>Don't have an account? <a href="/register" style="font-weight: bold">Register</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <%- include('partials/footer') %>
+</body>
+
+</html>

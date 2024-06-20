@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Scroll-to-Bottom Footer</title>
+    <style>
+      /* CSS cho footer */
+      footer {
+        background-color: #cc99cc;
+        color: white;
+        padding: 20px;
+        text-align: center;
+        position: fixed;
+        left: 0;
+        bottom: -100px;
+        width: 100%;
+        transition: bottom 0.3s ease;
+      }
+
+      .show-footer {
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <div style="height: 50px"></div>
+    <footer id="myFooter">
+      <p>&copy; 2024 WATCH SHOP</p>
+    </footer>
+
+    <script>
+      window.addEventListener("scroll", function () {
+        var footer = document.getElementById("myFooter");
+        var scrollPosition = window.innerHeight + window.scrollY;
+        var documentHeight = document.body.offsetHeight;
+
+        if (scrollPosition >= documentHeight) {
+          footer.classList.add("show-footer");
+        } else {
+          footer.classList.remove("show-footer");
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<script
+  defer
+  src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+></script>
+<script src="/javascripts/utils.js"></script>
+<script src="/javascripts/matchPassword.js"></script>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        <%= title %>
+    </title>
+</head>
+
+<body>
+    <%- include('partials/header') %>
+    <a href="/watches" class="button is-primary" style="margin-bottom: 10px; margin-top: 20px; margin-left: 50px">Back</a>
+        <div class="container">
+
+            <div class="field">
+                <label class="label">Brand</label>
+                <div class="select is-normal" style="width: 100%;">
+                     
+
+                    <select name="brand" class="input" required>
+                        <% categories.forEach(function(brand){ %>
+                            <option value="<%= brand._id%>" <% if(brand.brandName == watch.brand?.brandName) { %> selected <% } %> >
+                                <%= brand.brandName%>
+                            </option>
+                        <% }); %>
+                      </select>
+                </div>
+            </div>
+           
+            <form method="POST">
+                <div class="field">
+                    <label class="label">Name</label>
+                    <div class="control">
+                        <input class="input" name="name" type="text" placeholder="Input name" required value="<%= watch.name %>"
+                            onblur="trimInput()">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Image</label>
+                    <div class="control">
+                        <input class="input" name="image" type="text" placeholder="Input image" required value="<%= watch.image %>"
+                            onblur="trimInput()"  
+                            pattern="^(http|https):\/\/.*(jpeg|jpg|png|gif|bmp)$">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Price</label>
+                    <div class="control">
+                        <input class="input" name="price" type="number" placeholder="Input price" required value="<%= watch.price %>"
+                            onblur="trimInput()">
+                    </div>
+                </div>
+
+                <div class="field">
+                    <label class="label">Description</label>
+                    <div class="control">
+                        <textarea class="textarea" name="description" rows="3" type="text" placeholder="Input description" required ><%= watch.description %></textarea>
+                            
+                    </div>
+                </div>
+
+               
+
+                <div class="field">
+                    <label class="checkbox">
+                        <span style="font-weight: bold;">Automatic</span>
+                        <span class="control">
+                            <input type="checkbox" name="isAutomatic" <% if(watch.isAutomatic) { %> checked <% } %>>
+                        </span>
+                    </label>
+                </div>
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button class="button is-link" type="submit">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <%- include('partials/footer') %>
+</body>
+
+</html>
